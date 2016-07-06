@@ -6,4 +6,3 @@
 - name: "Setting up nginx for {{ ansible_distribution }}"
   include: "setup_{{ ansible_distribution }}.yml"
   when: ansible_distribution in [ 'Ubuntu', 'Gentoo' ]
-

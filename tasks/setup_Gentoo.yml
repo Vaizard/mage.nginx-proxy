@@ -6,3 +6,5 @@
     deep: yes
     sync: yes
     newuse: yes
+  notify:
+    - restart nginx
