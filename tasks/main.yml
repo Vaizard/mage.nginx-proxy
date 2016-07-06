@@ -6,3 +6,9 @@
 - name: "Setting up nginx for {{ ansible_distribution }}"
   include: "setup_{{ ansible_distribution }}.yml"
   when: ansible_distribution in [ 'Ubuntu', 'Gentoo' ]
+
+- name: "Writing /etc/nginx/snippets/mage_secure.conf"
+  template:
+    src: "nginx-snippets/mage_secure.conf"
+    dest: "/etc/nginx/snippets/mage_secure.conf"
+    mode: 0644
