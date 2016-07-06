@@ -1,0 +1,8 @@
+---
+- name: "Installing packages"
+  portage: 
+    package: "{{ mage_packages }}"
+    update: yes
+    deep: yes
+    sync: yes
+    newuse: yes
