@@ -12,4 +12,5 @@
     src: "nginx-snippets/mage_secure.conf"
     dest: "/etc/nginx/snippets/mage_secure.conf"
     mode: 0644
-  notify: nginx reload
+  notify: 
+    - reload nginx
