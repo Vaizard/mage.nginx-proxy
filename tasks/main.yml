@@ -7,10 +7,37 @@
   include: "setup_{{ ansible_distribution }}.yml"
   when: ansible_distribution in [ 'Ubuntu', 'Gentoo' ]
 
-- name: "Writing /etc/nginx/snippets/mage_secure.conf"
+- name: "Ensuring /etc/nginx/snippets/mage_http.conf is present"
+  template:
+    src: "nginx-snippets/mage_http.conf"
+    dest: "/etc/nginx/snippets/mage_http.conf"
+    mode: 0644
+  notify: 
+    - reload nginx
+
+- name: "Ensuring /etc/nginx/snippets/mage_proxyheaders.conf"
+  template:
+    src: "nginx-snippets/mage_proxyheaders.conf"
+    dest: "/etc/nginx/snippets/mage_proxyheaders.conf"
+    mode: 0644
+  notify: 
+    - reload nginx
+    
+- name: "Ensuring /etc/nginx/snippets/mage_responses.conf"
+  template:
+    src: "nginx-snippets/mage_responses.conf"
+    dest: "/etc/nginx/snippets/mage_responses.conf"
+    mode: 0644
+  notify: 
+    - reload nginx
+
+- name: "Ensuring /etc/nginx/snippets/mage_secure.conf"
   template:
     src: "nginx-snippets/mage_secure.conf"
     dest: "/etc/nginx/snippets/mage_secure.conf"
     mode: 0644
   notify: 
     - reload nginx
+    
+- name: "Ensuring nginx is started and enabled to start at boot."
+  service: name=nginx state=started enabled=yes

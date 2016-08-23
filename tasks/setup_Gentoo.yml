@@ -1,10 +1,12 @@
 ---
-- name: "Installing packages"
+- name: Installing packages
   portage: 
-    package: "{{ mage_packages }}"
+    package: "{{ item }}"
     update: yes
     deep: yes
-    sync: yes
+    sync: web
     newuse: yes
+  with_items:
+    - "{{ mage_packages }}"
   notify:
     - restart nginx
