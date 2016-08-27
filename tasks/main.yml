@@ -37,7 +37,40 @@
     dest: "/etc/nginx/snippets/mage_secure.conf"
     mode: 0644
   notify: 
-    - reload nginx
-    
+    - reload nginx  
+
 - name: "Ensuring nginx is started and enabled to start at boot."
   service: name=nginx state=started enabled=yes
+
+- name: "Ensuring a current upstream list is provided."
+  template:
+    src: upstream.j2
+    dest: "/etc/nginx/conf.d/upstream.conf"
+    mode: 0644
+    owner: root
+    group: root
+  notify:
+    - nginx reload
+
+- name: "Ensuring all vhost configurations are present"
+  template:
+    src: vhost.j2
+    dest: "/etc/nginx/sites-available/{{ item.name }}.conf"
+    mode: 0644
+    owner: root
+    group: root
+  with_items: "{{ nginx_proxy_server }}"
+  notify:
+    - nginx reload
+   
+- name: "Ensuring all vhost configurations are anebled"
+  file:
+    src: "/etc/nginx/sites-available/{{ item.name }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ item.name }}.conf"
+    mode: 0644
+    owner: root
+    group: root
+    state: link
+  with_items: "{{ nginx_proxy_server }}"
+  notify:
+- nginx reload

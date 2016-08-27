@@ -1,0 +1,29 @@
+---
+
+- hosts: localhost
+  roles:
+    - role: "mage.nginx-proxy"
+      nginx_proxy_upstream:
+        - name: "pg"
+          servers:
+            - "10.0.0.1:80"
+            - "10.0.0.2:80"
+        - name: "web"
+          servers:
+            - "10.0.0.3:80"
+      nginx_proxy_server:
+        - name: "sub.example.com"
+          locations:
+            - { name: "/", proxy_pass: "http://pg/" }
+            - { name: "/postgres/", proxy_pass: "http://pg/phppgadmin/" }
+        - name: "hamster1.example.com"
+          locations:
+            - { name: "/", proxy_pass: "http://10.0.0.50/hamster1/" }
+        - name: "hamster2.example.com"
+          locations:
+            - { name: "/", proxy_pass: "http://10.0.0.50/hamster2/" }
+
+        
+        
+# Run with:
+# ansible-playbook -b --ask-become-pass ./nginx-proxy-test.yaml

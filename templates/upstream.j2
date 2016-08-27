@@ -1,0 +1,8 @@
+{% for item in nginx_proxy_upstream %}
+upstream {{ item.name }} {
+  {% for server in item.servers %}
+  server {{ server }};
+  {% endfor %}
+}
+
+{% endfor %}
