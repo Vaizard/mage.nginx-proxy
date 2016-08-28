@@ -52,6 +52,16 @@
   notify:
     - reload nginx
 
+- name: "Ensuring a current upstream list is provided."
+  template:
+    src: default.j2
+    dest: "/etc/nginx/sites-available/default"
+    mode: 0644
+    owner: root
+    group: root
+  notify:
+    - reload nginx
+    
 - name: "Ensuring all vhost configurations are present"
   template:
     src: vhost.j2
