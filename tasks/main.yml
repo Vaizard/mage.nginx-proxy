@@ -52,7 +52,7 @@
   notify:
     - reload nginx
 
-- name: "Ensuring a current upstream list is provided."
+- name: "Ensuring a correctly configured default site definition file is provided."
   template:
     src: default.j2
     dest: "/etc/nginx/sites-available/default"
