@@ -39,9 +39,6 @@
   notify: 
     - reload nginx
 
-- name: "Ensuring nginx is started and enabled to start at boot."
-  service: name=nginx state=started enabled=yes
-
 - name: "Ensuring a current upstream list is provided."
   template:
     src: upstream.j2
@@ -84,3 +81,6 @@
   with_items: "{{ nginx_proxy_server }}"
   notify:
     - reload nginx
+
+- name: "Ensuring nginx is started and enabled to start at boot."
+  service: name=nginx state=started enabled=yes
