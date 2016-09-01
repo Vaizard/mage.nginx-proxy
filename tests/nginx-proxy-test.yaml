@@ -3,6 +3,9 @@
 - hosts: localhost
   roles:
     - role: "mage.nginx-proxy"
+      nginx_proxy_default_certificate: ""
+      nginx_proxy_default_certificate_key: ""
+      nginx_proxy_default_trusted_certificate: ""
       nginx_proxy_upstream:
         - name: "pg"
           servers:
@@ -16,6 +19,7 @@
           locations:
             - { name: "/", proxy_pass: "http://pg/" }
             - { name: "/postgres/", proxy_pass: "http://pg/phppgadmin/" }
+            
         - name: "hamster1.example.com"
           locations:
             - { name: "/", proxy_pass: "http://10.0.0.50/hamster1/" }
