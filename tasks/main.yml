@@ -49,6 +49,17 @@
   notify:
     - reload nginx
 
+###    
+
+- stat: path={{ nginx_proxy_default_certificate }}
+  register: file_certificate
+
+- debug: msg="Path exists and is a directory"
+  when: file_certificate.stat.exists is defined and file_certificate.stat.exists
+
+  
+###
+    
 - name: "Ensuring a correctly configured default site definition file is provided."
   template:
     src: default.j2

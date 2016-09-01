@@ -17,6 +17,7 @@ server {
     include snippets/mage_http.conf;
 }
 
+{% if file_certificate.stat.exists is defined and file_certificate.stat.exists %}
 # Default https server
 server {
     listen 443 ssl http2 default_server;
@@ -34,3 +35,6 @@ server {
     server_name _;
     include snippets/mage_responses.conf;
 }
+{% else %}
+# Default https server (ommited, missing certificates)
+{% endif %}
