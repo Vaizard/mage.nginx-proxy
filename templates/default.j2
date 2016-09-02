@@ -17,16 +17,20 @@ server {
     include snippets/mage_http.conf;
 }
 
-{% if file_certificate.stat.exists is defined and file_certificate.stat.exists %}
 # Default https server
 server {
     listen 443 ssl http2 default_server;
     listen [::]:443 ssl http2 default_server;
     
+    {% if default_certificate.stat.exists and default_certificate_key.stat.exists %}
     ssl_certificate         {{ nginx_proxy_default_certificate }};
     ssl_certificate_key     {{ nginx_proxy_default_certificate_key }};
-    {% if nginx_proxy_default_trusted_certificate is defined and nginx_proxy_default_trusted_certificate|trim %}
+    {% if default_trusted_certificate %}
     ssl_trusted_certificate {{ nginx_proxy_default_trusted_certificate }};
+    {% endif %}
+    {% else %}
+    ssl_certificate         /etc/ssl/certs/mage-snakeoil.pem;
+    ssl_certificate_key     /etc/ssl/private/mage-snakeoil.key;
     {% endif %}
     include snippets/mage_secure.conf;
 
@@ -35,6 +39,5 @@ server {
     server_name _;
     include snippets/mage_responses.conf;
 }
-{% else %}
-# Default https server (ommited, missing certificates)
-{% endif %}
+
+

@@ -1,7 +1,7 @@
 ---
 nginx_proxy_upstream: []
 nginx_proxy_server:   []
-nginx_proxy_default_certificate:         "/etc/ssl/certs/mage-snakeoil.pem"
-nginx_proxy_default_certificate_key:     "/etc/ssl/private/mage-snakeoil.key"
+nginx_proxy_default_certificate:         ""
+nginx_proxy_default_certificate_key:     ""
 nginx_proxy_default_trusted_certificate: ""
       

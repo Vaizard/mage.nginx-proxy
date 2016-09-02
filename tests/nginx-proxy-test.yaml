@@ -19,7 +19,9 @@
           locations:
             - { name: "/", proxy_pass: "http://pg/" }
             - { name: "/postgres/", proxy_pass: "http://pg/phppgadmin/" }
-            
+          certificate: "/etc/ssl/certs/mage-snakeoil.pem"
+          certificate_key: "/etc/ssl/private/mage-snakeoil.key"
+          #trusted_certificate: ""
         - name: "hamster1.example.com"
           locations:
             - { name: "/", proxy_pass: "http://10.0.0.50/hamster1/" }

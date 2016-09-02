@@ -7,13 +7,37 @@ server {
 server {
   listen 443 ssl http2;
   server_name {{ item.name }};
+
+  {# 1st branching: we have production certificates present #}  
+  {% if default_certificate.stat.exists and default_certificate_key.stat.exists %}
+  {# 2nd branching: the vhost doesnt use the default production certificate #}    
+  {# if variable defining path to certificate is empty, use snakeoil as safe fallback %}
+  {% if item.certificate is defined and item.certificate_key is defined %}
+  ssl_certificate         {{ item.certificate|default('/etc/ssl/certs/mage-snakeoil.pem', true) }}; 
+  ssl_certificate_key     {{ item.certificate_key|default('/etc/ssl/certs/mage-snakeoil.pem', true) }};
+  {% if item.trusted_certificate is defined and item.trusted_certificate|trim %}
+  ssl_trusted_certificate {{ item.trusted_certificate }};
+  {% endif %}
+  {# 2nd branching: the vhost does use the default production certificate #}      
+  {% else %}
   ssl_certificate         {{ nginx_proxy_default_certificate }};
   ssl_certificate_key     {{ nginx_proxy_default_certificate_key }};
+  {% if nginx_proxy_default_trusted_certificate is defined and nginx_proxy_default_trusted_certificate|trim %}
+  ssl_trusted_certificate {{ nginx_proxy_default_trusted_certificate }};
+  {% endif %}
+  {% endif %}
+  {# 1st branching: we don't have production certificates present, using snakeoil as fallback#}  
+  {% else  %}
+  ssl_certificate         /etc/ssl/certs/mage-snakeoil.pem;
+  ssl_certificate_key     /etc/ssl/private/mage-snakeoil.key;
+  {% endif %}
+  
   {% for location in item.locations %}
   location {{ location.name }} {
     proxy_pass		{{ location.proxy_pass }};
     proxy_redirect	default;
     include		snippets/mage_proxyheaders.conf;
   }
+  
   {% endfor %}
 }
