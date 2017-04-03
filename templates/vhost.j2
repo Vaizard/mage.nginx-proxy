@@ -31,13 +31,19 @@ server {
   ssl_certificate         /etc/ssl/certs/mage-snakeoil.pem;
   ssl_certificate_key     /etc/ssl/private/mage-snakeoil.key;
   {% endif %}
-  
+
+  {% if item.locations is defined %}
   {% for location in item.locations %}
   location {{ location.name }} {
     proxy_pass		{{ location.proxy_pass }};
     proxy_redirect	default;
     include		snippets/mage_proxyheaders.conf;
   }
-  
   {% endfor %}
+  {% endif %}
+
+  {% if item.extra_parameters is defined %}
+    {{ item.extra_parameters|indent(2) }}
+  {% endif %}
+
 }
