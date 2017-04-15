@@ -137,5 +137,12 @@
   notify:
     - reload nginx
 
+- name: "Remove default nginx vhost config file (if configured)"
+  file:
+    path: "{{ nginx_default_vhost_path }}"
+    state: absent
+  when: nginx_remove_default_vhost
+  notify: restart nginx
+  
 - name: "Ensuring nginx is started and enabled to start at boot."
   service: name=nginx state=started enabled=yes
