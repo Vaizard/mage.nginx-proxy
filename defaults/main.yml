@@ -22,8 +22,10 @@ nginx_ssl_protocols: "TLSv1 TLSv1.1 TLSv1.2;" # Dropping SSLv3, ref: POODLE
 nginx_server_tokens: "off"
 nginx_server_names_hash_bucket_size: "64"
 nginx_client_max_body_size: "64m"
+nginx_remove_default_vhost: false # If set to true, default site symlink will be removed from enabled sites directory
 
 nginx_proxy_cache_path: ""
+
 nginx_extra_http_options: ""
 # Example extra http options, printed inside the main server http config:
 #    nginx_extra_http_options: |
