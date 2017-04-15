@@ -1,14 +1,14 @@
-user  {{ nginx_user }};
+user       {{ nginx_user }};
 error_log  {{ nginx_error_log }};
 pid        {{ nginx_pidfile }};
-worker_processes  {{ nginx_worker_processes }};
+worker_processes {{ nginx_worker_processes }};
 
 events {
     worker_connections  {{ nginx_worker_connections }};
     multi_accept {{ nginx_multi_accept }};
-    {% if nginx_use %}
-        use {{ nginx_use }};
-    {% endif %}
+{% if nginx_use %}
+    use {{ nginx_use|indent(4, False) }};
+{% endif %}
 }
 
 {% if nginx_extra_conf_options %}
@@ -27,12 +27,12 @@ http {
     sendfile        {{ nginx_sendfile }};
     tcp_nopush      {{ nginx_tcp_nopush }};
     tcp_nodelay     {{ nginx_tcp_nodelay }};
-    types_hash_max_size {{ nginx_type_hash_max_size }}; ##
+    types_hash_max_size {{ nginx_type_hash_max_size }};
     keepalive_timeout   {{ nginx_keepalive_timeout }};
     keepalive_requests  {{ nginx_keepalive_requests }};
  
-    ssl_protocols {{ nginx_ssl_protocols }} TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE ##
-    ssl_prefer_server_ciphers on; ##
+    ssl_protocols {{ nginx_ssl_protocols }};
+    ssl_prefer_server_ciphers on;
 
     server_tokens {{ nginx_server_tokens }};
     gzip on;
