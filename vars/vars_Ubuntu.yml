@@ -1,3 +1,15 @@
 ---
+# OS packages to install
 mage_packages:
   - nginx
+  
+# Nginx configuration
+root_group: root
+nginx_pidfile: "/run/nginx.pid"
+nginx_use: "epoll"
+nginx_conf_path: /etc/nginx/conf.d
+nginx_vhost_path: /etc/nginx/sites-enabled
+nginx_conf_file_path: /etc/nginx/nginx.conf
+nginx_default_vhost_path: /etc/nginx/sites-enabled/default
+__nginx_user: "www-data"
+
