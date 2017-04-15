@@ -18,7 +18,7 @@ nginx_tcp_nodelay: "on"
 nginx_type_hash_max_size: "2048"
 nginx_keepalive_timeout: "65"
 nginx_keepalive_requests: "100"
-nginx_ssl_protocols: "TLSv1 TLSv1.1 TLSv1.2;" # Dropping SSLv3, ref: POODLE
+nginx_ssl_protocols: "TLSv1 TLSv1.1 TLSv1.2" # Dropping SSLv3, ref: POODLE
 nginx_server_tokens: "off"
 nginx_server_names_hash_bucket_size: "64"
 nginx_client_max_body_size: "64m"
