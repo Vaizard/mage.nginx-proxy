@@ -2,6 +2,11 @@
 
 - name: "Including distro-specific variables"
   include_vars: "vars_{{ ansible_distribution }}.yml"
+  
+- name: "Define nginx_user"
+  set_fact:
+    nginx_user: "{{ __nginx_user }}"
+  when: nginx_user is not defined
 
 - name: "Setting up nginx for {{ ansible_distribution }}"
   include: "setup_{{ ansible_distribution }}.yml"
@@ -45,7 +50,17 @@
     dest: "/etc/nginx/conf.d/upstream.conf"
     mode: 0644
     owner: root
-    group: root
+    group: "{{ root_group }}"
+  notify:
+    - reload nginx
+    
+- name: "Ensuring a propper nginx.conf is in place"
+  template:
+    src: nginx.conf.j2
+    dest: "{{ nginx_conf_file_path }}"
+    owner: root
+    group: "{{ root_group }}"
+    mode: 0644
   notify:
     - reload nginx
 
