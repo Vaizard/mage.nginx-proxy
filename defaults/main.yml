@@ -1,7 +1,46 @@
 ---
+# Proxy settings
 nginx_proxy_upstream: []
 nginx_proxy_server:   []
 nginx_proxy_default_certificate:         ""
 nginx_proxy_default_certificate_key:     ""
 nginx_proxy_default_trusted_certificate: ""
-      
+
+# General settings
+nginx_error_log: "/var/log/nginx/error.log warn"
+nginx_access_log: "/var/log/nginx/access.log main buffer=16k"
+nginx_worker_processes: "auto"
+nginx_worker_connections: "1024"
+nginx_multi_accept: "on"
+nginx_sendfile: "on"
+nginx_tcp_nopush: "on"
+nginx_tcp_nodelay: "on"
+nginx_type_hash_max_size: "2048"
+nginx_keepalive_timeout: "65"
+nginx_keepalive_requests: "100"
+nginx_ssl_protocols: "TLSv1 TLSv1.1 TLSv1.2;" # Dropping SSLv3, ref: POODLE
+nginx_server_tokens: "off"
+nginx_server_names_hash_bucket_size: "64"
+nginx_client_max_body_size: "64m"
+
+nginx_proxy_cache_path: ""
+nginx_extra_http_options: ""
+# Example extra http options, printed inside the main server http config:
+#    nginx_extra_http_options: |
+#      proxy_buffering    off;
+#      proxy_set_header   X-Real-IP $remote_addr;
+#      proxy_set_header   X-Scheme $scheme;
+#      proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+#      proxy_set_header   Host $http_host;
+
+nginx_extra_conf_options: ""
+# Example extra main options, used within the main nginx's context:
+#   nginx_extra_conf_options: |
+#     env VARIABLE;
+#     include /etc/nginx/main.d/*.conf;
+
+nginx_log_format: |
+  '$remote_addr - $remote_user [$time_local] "$request" '
+  '$status $body_bytes_sent "$http_referer" '
+  '"$http_user_agent" "$http_x_forwarded_for"'
+
