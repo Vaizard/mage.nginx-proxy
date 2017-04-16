@@ -26,7 +26,7 @@ nginx_remove_default_vhost: false # If set to true, default site symlink will be
 
 nginx_proxy_cache_path: ""
 nginx_proxy_max_temp_file_size: "0"
-nginx_proxy_buffers: "16 8k";
+nginx_proxy_buffers: "16 8k"
 
 nginx_extra_http_options: ""
 # Example extra http options, printed inside the main server http config:
