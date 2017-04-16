@@ -37,15 +37,19 @@ http {
     server_tokens {{ nginx_server_tokens }};
     gzip on;
     gzip_disable "msie6";
-
+    
+    proxy_max_temp_file_size {{ nginx_proxy_max_temp_file_size }};
+{% if nginx_proxy_buffers %}
+    proxy_buffers {{ nginx_proxy_buffers }};
+{% endif %}
 {% if nginx_proxy_cache_path %}
     proxy_cache_path {{ nginx_proxy_cache_path }};
 {% endif %}
 
 {% if nginx_extra_http_options %}
     {{ nginx_extra_http_options|indent(4, False) }}
+    
 {% endif %}
-
     include {{ nginx_conf_path }}/*.conf;
 {% if nginx_conf_path != nginx_vhost_path %}
     include {{ nginx_vhost_path }}/*;
