@@ -1,5 +1,5 @@
 ---
-# Proxy settings
+# Role settings
 nginx_proxy_upstream: []
 nginx_proxy_server:   []
 nginx_proxy_default_certificate:         ""
@@ -25,6 +25,8 @@ nginx_client_max_body_size: "64m"
 nginx_remove_default_vhost: false # If set to true, default site symlink will be removed from enabled sites directory
 
 nginx_proxy_cache_path: ""
+nginx_proxy_max_temp_file_size: "0"
+nginx_proxy_buffers: "16 8k";
 
 nginx_extra_http_options: ""
 # Example extra http options, printed inside the main server http config:
