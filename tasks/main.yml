@@ -12,6 +12,14 @@
   include: "setup_{{ ansible_distribution }}.yml"
   when: ansible_distribution in [ 'Ubuntu', 'Gentoo' ]
 
+- name: "Verifying availibility of upstream servers (if your play fails here, you have unreachable servers listed in nginx_proxy_upstream. With these present, nginx would fail to reload/restart properly."
+  command: "ping -c 1 {{ item.1 | regex_replace('^(?P<host>.+):(?P<port>\\d+)$', '\\g<host>') }}"
+  register: result
+  failed_when: ( result.rc != 0 )
+  with_subelements:
+    - "{{ nginx_proxy_upstream }}"
+    - servers
+
 - name: "Ensuring /etc/nginx/snippets/mage_http.conf is present"
   template:
     src: "nginx-snippets/mage_http.conf"
